@@ -17,3 +17,12 @@ Since DNS resolution can be thought of as the prerequesite to an internet connec
 Initially, we pack `struct addrinfo hints` to indicate what the configuration preferences are. We set all of it's bytes to 0 (or NULL) as this is required by the getaddrinfo. For more information on the hints, checkout the [manual](https://www.man7.org/linux/man-pages/man3/getaddrinfo.3.html)
 
 Then, we extract the address information we received and convert it to a presentable format for printing.
+
+#### showip.c
+
+You see, getaddrinfo may not only return a single IP. It may also return multiple IP addresses, and return both IPv4, and IPv6 addresses. 
+The reason may be simple - a single domain may be distributed across many IP addresses for geographical reasons, or load balancing reasons. Therefore, the DNS 
+may resolve it and get back mutiple responses. 
+
+To accomodate this, the structure for addrinfo is actually a linked list - of different IP addresses. If you are a client, typically you will connect to the 
+first one available, or may employ load balacing on your app to distribute the load randomly. 

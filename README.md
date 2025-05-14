@@ -26,3 +26,21 @@ may resolve it and get back mutiple responses.
 
 To accomodate this, the structure for addrinfo is actually a linked list - of different IP addresses. If you are a client, typically you will connect to the 
 first one available, or may employ load balacing on your app to distribute the load randomly. 
+
+#### bind.c
+
+After the address is configured, (or for a client - found), we are ready to start requesting resources from the operating system. 
+The first of which is a socket(....) call that creates a namespace - a description of the connection we are about to make. It returns a file descriptor
+which is a fancy way of saying "a handle to a file". The file descriptor can be used to interact with the socket by sending and receiving information from it.
+
+However, at this point, the system has not allocated any way of associating that file descriptor with any particular network resources. In other words,
+the address, port etc are not yet "mapped" to it. This process is called "binding". And a bind() call is made. 
+
+This bind call is necessary only if the code is for a server side application where the server needs to allocate resources and sit in a loop listening for incoming messages on that
+descriptor associated with that file. If a proram is already interacting ("listening") on that port and address, then the binding fails with an error.
+
+#### listen.c
+
+#### accept.c
+
+#### connect.c
